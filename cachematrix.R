@@ -22,20 +22,22 @@ makeCacheMatrix <- function(x = matrix()) {
     list(set = set, get = get,
          setinverse = setinverse,
          getinverse = getinverse)
-
 }
 
 
 ## Computes the inverse of the matrix object returned by makeCacheMatrix
 cacheSolve <- function(x, ...) {
     inverse <- x$getinverse()
+    # If the inverse has been calculated, return the value in the cache.
     if(!is.null(inverse)) {
         message("Getting cached data.")
         return(inverse)
     }
     data <- x$get()
-    # Assume the matrix is always invertible.
+    # Compute inverse of matrix. Assume the matrix is always invertible.
     inverse <- solve(data, ...)
+    # Set the computed value in the cache.
     x$setinverse(inverse)
+    # Return the computed inverse of the matrix.
     inverse
 }
